@@ -1,0 +1,25 @@
+2022-02-18
+
+I connected the srs programmer to a servo through a splitter cable and connected the signal and ground to my logic analyzer
+
+I saw that whenever I press one of the interesting buttons (LEFT, PROGRAM, RIGHT in programming mode), I get a packet.
+
+I determined that the width of each bit is 13us, so I decoded the bits by hand with excel.
+
+I realized that each packet is made of a 10 bit frame with the first bit always 0 and the last always 1.
+
+Knowing this, I felt I was finally able to write a program that decodes the packets automatically from an export capture.
+
+After doing a sequence of {RIGHT (success), LEFT (success), PROGRAM (success)} I got dump1.txt.
+
+There I saw that every packet starts with FF FF and then 7F if the packet is from the programmer or 80 if it's from the servo
+
+I also saw that the packet sent when LEFT or RIGHT are pressed are the same.
+
+I did another dump of the same sequence but setting different limits (dump2.txt) and ran a diff.
+
+I found some differences in the big packet sent to the programmer when PROGRAM is pressed.
+
+More notably, I found that the last 3 bits of the response to RIGHT/LEFT changed, which probably means they contain the servo's position.
+
+
