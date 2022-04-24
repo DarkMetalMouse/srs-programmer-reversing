@@ -22,4 +22,7 @@ I found some differences in the big packet sent to the programmer when PROGRAM i
 
 More notably, I found that the last 3 bits of the response to RIGHT/LEFT changed, which probably means they contain the servo's position.
 
+2022-04-24
+
+I figured out that the protocol is UART, which means that it's probably LSB first. So 0xFE instead of 0x7F and 0x01 instead of 0x80
 
