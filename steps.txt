@@ -26,3 +26,10 @@ More notably, I found that the last 3 bits of the response to RIGHT/LEFT changed
 
 I figured out that the protocol is UART, which means that it's probably LSB first. So 0xFE instead of 0x7F and 0x01 instead of 0x80
 
+Setting the buad rate to 77170, I was now able to extract bytes directly from logic
+
+analyzing uart_dump1, i saw the biggest number was 0x0003FFF8 which means the value returned is 18 bits
+
+This is a bit too high, which leads me to believe the last byte is actually a checksum
+
+After a bit of trial and error I arrived at the formula (~sum(bytes[2:-1]))&0xFF for the checksum byte
