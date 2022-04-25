@@ -33,3 +33,37 @@ analyzing uart_dump1, i saw the biggest number was 0x0003FFF8 which means the va
 This is a bit too high, which leads me to believe the last byte is actually a checksum
 
 After a bit of trial and error I arrived at the formula (~sum(bytes[2:-1]))&0xFF for the checksum byte
+
+2022-04-25
+
+To be able to communicate between my pc and the servo, I connected a CP210 serial to usb adapter to the servo as shown in cp210-wiring.png
+
+At first, I created plot_angle.py, which plots the adc value returned by the servo
+
+It worked pretty well, but if the delay was less than 400ms, the servo would sometimes interpret the data as PWM and spin a little
+
+I also noticed that at some point above 1023, the value returned keeps rising. This is probably due to the small disconnected area in the potentiometer
+
+When the servo is at the zero point, it reports a number around 512
+
+After that I tried sending the PROGRAM button and only got a single packet in response.
+
+I sent the next packet in the transmission and also got a single packet
+
+This means that the 0x01 doesn't mean SRS to programmer as I thought. It probably doesn't have a meaning beyond "a button has been pressed"
+
+Looking at the diff of different PROGRAM sequences, I found that only a pair of 2 bytes is changed each time.
+
+When a factory reset is issued, both of these numbers are set to 1000
+
+The next idea I had was to make the CP210 act as an SRS, to precisely control the adc values
+
+I had some trouble getting it to work but finally I got the communication working after connecting a 10KOhm pull-down resistor to RX of the CP210
+
+With some trail and error, I found out the (65<=LEFT<=411) and (611<=RIGHT<=965) (returned 1000,1000) 
+
+Assuming the correlation is linear, I plotted a function from the 2 dots and extrapolated different values, all of which were true!
+
+The function for LEFT is: y-1000=(1000-232)/(65-411)*(x-65)
+
+The function for RIGHT is: y-1000=(1000-213)/(965-611)*(x-965)
