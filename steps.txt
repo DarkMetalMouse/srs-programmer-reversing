@@ -67,3 +67,7 @@ Assuming the correlation is linear, I plotted a function from the 2 dots and ext
 The function for LEFT is: y-1000=(1000-232)/(65-411)*(x-65)
 
 The function for RIGHT is: y-1000=(1000-213)/(965-611)*(x-965)
+
+Knowing that, I was able to write programmer.py, a PoC SRS-Programmer
+
+After some tests, I found out the 611 and 411 limits are arbitrary, you can set angles as small as 1! 
