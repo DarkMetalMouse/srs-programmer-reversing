@@ -1,5 +1,6 @@
 import serial
 import struct
+import time
 
 
 def map(x1, y1, x2, y2, x):
@@ -35,12 +36,15 @@ s = serial.Serial("COM3", 77170)
 
 loopback_write(s, bytearray.fromhex("FF FF FE 02 01 FE"))
 wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
+time.sleep(0.02)
 
 loopback_write(s, bytearray.fromhex("FF FF 01 04 02 15 01 E2"))
 wait_for_bytes(s, bytearray.fromhex("FF FF 01 03 00 00 FB"))
+time.sleep(0.02)
 
 loopback_write(s, bytearray.fromhex("FF FF 01 04 03 34 00 C3"))
 wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
+time.sleep(0.02)
 
 send_data(s,
           bytearray.fromhex(
@@ -50,6 +54,7 @@ send_data(s,
           + struct.pack(">H", right)
           + bytearray.fromhex("00"))
 wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
+time.sleep(0.02)
 
 loopback_write(s, bytearray.fromhex("FF FF 01 04 03 34 01 C2"))
 wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
