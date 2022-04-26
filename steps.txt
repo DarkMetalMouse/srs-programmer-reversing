@@ -71,3 +71,11 @@ The function for RIGHT is: y-1000=(1000-213)/(965-611)*(x-965)
 Knowing that, I was able to write programmer.py, a PoC SRS-Programmer
 
 After some tests, I found out the 611 and 411 limits are arbitrary, you can set angles as small as 1! 
+
+2022-04-26
+
+Setting the servo to continuous mode and then back to servo, I noticed one of the bits of the 2nd PROGRAM message would flip
+
+This bit means the current state, 0 for servo and 1 for continuous
+
+The other command that changed was the long one, I copied it as is to programmer.py and it worked 
