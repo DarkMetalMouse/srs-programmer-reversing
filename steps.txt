@@ -79,3 +79,38 @@ Setting the servo to continuous mode and then back to servo, I noticed one of th
 This bit means the current state, 0 for servo and 1 for continuous
 
 The other command that changed was the long one, I copied it as is to programmer.py and it worked 
+
+2022-04-27
+
+I wanted to go a bit deeper, so I layed out all the known packets in a file packets.txt and looked for patterns
+
+After a bit of hypothesizing, I arrived at a generic request structure:
+
+FF FF {FE or 01} {packet length (everything to the right)} {02 read or 03 write or 01} {packet} {checksum}
+
+From that I wrote brute_force.py, which brute forced reading with every possible value
+
+I saw that the length of the response packet was always equal to the second modifiable byte
+
+From that I inferred that the first byte is an address and the second one is how much to read from that address
+
+I wrote another iteration of brute_force.py and I got the same bytes in every packet but shifted each time
+
+This means that the first byte is indeed an address for sequential bytes 
+
+From the pattern, I was able to determine that the entire memory space is 68 bytes, so It's probably 64 since that's a power of two
+
+After reading the entire memory, I immediately recognized a big chunk of it. It's the PROGRAM values! 
+
+Thus I arrived at a new theory. I separated the packets into two types, read and write
+
+read: {address} {length}
+
+write: {address} {byte 0} ... {byte n}
+
+note: this is only the {packet} part
+
+Knowing that, the long sequence in PROGRAM writes values to address 6. Which is indeed what I see in the memory! 
+
+It's all coming together :-)
+

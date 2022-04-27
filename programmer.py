@@ -35,16 +35,16 @@ right = int(map(965, 1000, 611, 213, right_adc))
 
 s = serial.Serial("COM3", 77170)
 
-loopback_write(s, bytearray.fromhex("FF FF FE 02 01 FE"))
-wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
-time.sleep(0.02)
+# loopback_write(s, bytearray.fromhex("FF FF FE 02 01 FE"))
+# wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
+# time.sleep(0.02)
 
-loopback_write(s, bytearray.fromhex("FF FF 01 04 02 15 01 E2"))
-r = s.read(7)
-assert (r.startswith(bytearray.fromhex("FF FF 01 03 00")) and
-        (r.endswith(bytearray.fromhex("00 FB"))  # Current state is servo
-         or r.endswith(bytearray.fromhex("01 FA"))))  # Current state is continuous
-time.sleep(0.02)
+# loopback_write(s, bytearray.fromhex("FF FF 01 04 02 15 01 E2"))
+# r = s.read(7)
+# assert (r.startswith(bytearray.fromhex("FF FF 01 03 00")) and
+#         (r.endswith(bytearray.fromhex("00 FB"))  # Current state is servo
+#          or r.endswith(bytearray.fromhex("01 FA"))))  # Current state is continuous
+# time.sleep(0.02)
 
 loopback_write(s, bytearray.fromhex("FF FF 01 04 03 34 00 C3"))
 wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
@@ -64,5 +64,5 @@ else:
 wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
 time.sleep(0.02)
 
-loopback_write(s, bytearray.fromhex("FF FF 01 04 03 34 01 C2"))
-wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
+# loopback_write(s, bytearray.fromhex("FF FF 01 04 03 34 01 C2"))
+# wait_for_bytes(s, bytearray.fromhex("FF FF 01 02 00 FC"))
