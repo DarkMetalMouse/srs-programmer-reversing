@@ -22,10 +22,12 @@ Software
 The programming functionality in in [programmer.py](/programmer.py)
 
 
-```python ./programmer.py <COMn> <c|continuos> | <min angle> <max angle>```
+```python ./programmer.py <COMn> <r|read> | <c|continuos> | <min angle> <max angle>```
 
 Examples:
 * Set SRS to continuos mode with usb adapter connected in COM3: ```python ./programmer.py COM3 c```
 
 * Set SRS CCW angle from mid (left) to -10 and CW angle (right) to 100: ```python ./programmer.py COM3 -10 100```
 
+* Read SRS configuration: ```python ./programmer.py COM3 r```
+  
